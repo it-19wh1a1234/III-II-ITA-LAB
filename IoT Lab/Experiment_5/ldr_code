@@ -1,0 +1,31 @@
+int analogInput = 0;                                      // initialising analog input to ‘0’
+int a=7;                                                         // assigning name to pin 7 as ‘a’
+float vout = 0.0;
+float vin = 0.0;
+int value = 0;
+void setup()
+{
+Serial.begin(9600);                                      // setting Baudrate for serial communication to 9600Bd
+pinMode(analogInput,INPUT);                  // Defining input and output ports
+pinMode(a,OUTPUT);
+digitalWrite(a,HIGH);                                // Initially glowing the LED
+delay(500);
+digitalWrite(a,LOW);                                 // Swicthing OFF the LED
+}
+void loop()
+{
+value = analogRead(analogInput);             // Reading the value from LDR
+vout = (value * 5.0)/1024;                         // Normalizing the value to ‘5’
+vin = vout ;
+Serial.println("Input Voltage = ");              // Displaying the input value on serial port
+Serial.println(vin);
+if(vin<=2.5) 
+{
+   digitalWrite(a,HIGH);
+}   // If value from LDR is < threshold value of ‘2.5’, glow LED
+else 
+{ 
+         digitalWrite(a,LOW);
+}                     // else LED OFF
+delay(2000);
+}
