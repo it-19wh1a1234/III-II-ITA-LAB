@@ -1,0 +1,52 @@
+int analogInput = 0;        // Initialising analog input to 0
+int c=5;            // Initialising digital pins 7,6,5 with names a,b,c respectively
+int b=6;
+int a=7;
+float vout = 0.0;
+float vin = 0.0;
+float R1 = 100000;
+float R2 = 10000;
+int value = 0;
+void setup()
+{
+Serial.begin(9600);        // The serial communication Baudrate is set to 9600Bd
+pinMode(analogInput,INPUT);        //Pin declarations as input / output
+pinMode(a,OUTPUT);            //    “
+pinMode(b,OUTPUT);            //    “
+pinMode(c,OUTPUT);            //    “
+digitalWrite(a,HIGH);            // Glowing all LEDs initially
+digitalWrite(b,HIGH);
+digitalWrite(c,HIGH);
+delay(500);
+digitalWrite(a,LOW);            // Switching OFF all LEDs
+digitalWrite(b,LOW);
+digitalWrite(c,LOW);
+}
+void loop()
+{
+value = analogRead(analogInput);        // Reading analog input voltage
+vout = (value * 5.0)/1024;            // Normalizing to 5
+vin = vout / (R2/(R1+R2));        // Calculating the applied input voltage
+Serial.println("Input Voltage = ");        // Displaying on serial port
+Serial.println(vin);
+if(vin>50) {digitalWrite(a,HIGH);}        // If fully charged, will glow LED-a
+else 
+{ 
+digitalWrite(a,LOW);
+}
+if(vin<=50 && vin>25) 
+{
+digitalWrite(b,HIGH);
+}        
+// If charged at half level, will glow LED-b
+else { digitalWrite(b,LOW);}
+if(vin<=25) 
+{
+digitalWrite(c,HIGH);
+}    // If weakly charged, will glow LED-c
+else 
+{ 
+digitalWrite(c,LOW);
+}
+delay(2000);
+}
