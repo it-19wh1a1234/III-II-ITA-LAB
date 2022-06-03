@@ -1,0 +1,36 @@
+#include <LiquidCrystal.h>                 // library for LCD
+long rn1;                           // variable for storing the first dice value
+long rn2;                         // variable for storing the first dice value
+int button = 7;                     //defining button port
+int state;                         //defining the variable for the storing the state of the button
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);           // Arduino pins assigned for the LCD
+void  setup()
+{
+  lcd.begin(16, 2);          // initializing the dimensions of LCD
+  randomSeed(analogRead(0));      //To shuffle the sequence every time the dice is rolled 
+  pinMode(button, INPUT_PULLUP);           // defining the working mode of the button  
+  lcd.setCursor(0,0);                                  // setting the place for the data to be displayed
+  lcd.print("Arduino Uno Dice");                 // data to be displayed
+  delay(1000);                                 // time for which the data will be displayed
+}
+void  loop()
+{
+ 
+  state = digitalRead(button);                      // to read the state of the button
+  if (state == LOW)                          //when the button is pressed then roll the two dices
+  {
+     lcd.clear();                 // clear the LCD if any data is being displayed previously
+     lcd.print("Rolling dice...");                  // data to be displayed
+     delay(7000);                                         // display until the both dices are rolled
+    lcd.clear();          /*clear the lcd so that the values for the dices can be  displayed*/
+   lcd.setCursor(0, 0);      /* setting the place for displaying the value for first          dice*/
+     rn1= random(1,6);                         // generating the value for first dice
+     lcd.print("Dice 1 = ");
+     lcd.print(rn1);                                   // displaying the value for first dice
+     lcd.setCursor(0, 1);         /* setting the place for displaying the value for first dice*/
+
+     rn2 = random(1,6);                            //generating the value for second dice
+     lcd.print("Dice 2 = ");
+     lcd.print(rn2);                                      //displaying the value for second dice  
+  }
+ }
