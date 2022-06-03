@@ -1,0 +1,20 @@
+#define LED_PIN 8            // Initialised Pins 7 & 8 as LED and Push Button
+#define BUTTON_PIN 7
+
+void setup()
+{
+  pinMode(LED_PIN, OUTPUT);        // Defining LED pin as output pin
+  pinMode(BUTTON_PIN, INPUT);        // Defining Push button as input pin
+}
+
+void loop() {
+  if (digitalRead(BUTTON_PIN) == HIGH)     
+// Checking status of Push button switch
+  {
+    digitalWrite(LED_PIN, HIGH);        // If pressed LED glows
+  }
+  else
+ {
+    digitalWrite(LED_PIN, LOW);
+  }
+}
