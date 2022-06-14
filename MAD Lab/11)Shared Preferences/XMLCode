@@ -1,0 +1,158 @@
+19wh1a1234 Jakkula Shreeya Reddy <19wh1a1234@bvrithyderabad.edu.in>
+	
+Sat, Jun 11, 11:07 AM (3 days ago)
+	
+to me
+Java code
+
+package com.example.sharedpreferences;
+
+import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+    private EditText name, age;
+    private RadioButton radiomale, radiofemale;
+    private RadioGroup radioGroupGender;
+    SharedPreferences prefs;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        name = findViewById(R.id.edit1);
+        age = findViewById(R.id.edit2);
+        radiofemale = findViewById(R.id.radioFemale);
+        radiomale = findViewById(R.id.radioMale);
+        radioGroupGender = findViewById(R.id.radioGroupGender);
+        prefs = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+    }
+    public void saveContent(View view) {
+        if (name.getText().toString().equals("") || age.getText().toString().equals("")){
+            Toast.makeText(MainActivity.this, "Enter the details",
+
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            SharedPreferences.Editor myEdit = prefs.edit();
+            myEdit.putString("name", name.getText().toString());
+            myEdit.putInt("age", Integer.parseInt(age.getText().toString()));
+            myEdit.putBoolean("gender_female", radiofemale.isChecked());
+            myEdit.putBoolean("gender_male", radiomale.isChecked());
+            myEdit.apply();
+        }
+    }
+    public void showContent(View view) {
+        String s1 = prefs.getString("name", "");
+        int a = prefs.getInt("age", 0);
+        boolean f = prefs.getBoolean("gender_female",false);
+        boolean m = prefs.getBoolean("gender_male",false);
+        name.setText(s1);
+        age.setText(String.valueOf(a));
+        radioGroupGender.clearCheck();
+        radiofemale.setChecked(f);
+        radiomale.setChecked(m);
+    }
+    public void clearContent(View view){
+        name.setText("");
+        age.setText("");
+        radiofemale.setChecked(false);
+        radiomale.setChecked(false);
+    }
+}
+
+
+XML code
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text=""/>
+    <EditText
+        android:id="@+id/edit1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Enter your Name"/>
+    <EditText
+        android:id="@+id/edit2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit1"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Enter your Age"/>
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit2"
+        android:id="@+id/radioGroupGender">
+        <RadioButton
+            android:id="@+id/radioMale"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:layout_below="@+id/edit2"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:checked="false"/>
+        <RadioButton
+            android:id="@+id/radioFemale"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:layout_below="@+id/radioMale"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:checked="false"/>
+    </RadioGroup>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radioGroupGender"
+        android:id="@+id/saveButton"
+        android:text="SHOW"
+        android:onClick="showContent"/>
+    <Button
+        android:id="@+id/clear_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="283dp"
+        android:text="CLEAR"
+        android:onClick="clearContent"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/radioGroupGender"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:id="@+id/showButtton"
+        android:text="SAVE/UPDATE"
+        android:onClick="saveContent"/>
+</RelativeLayout>
